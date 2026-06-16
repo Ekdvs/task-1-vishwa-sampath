@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student Learning Dashboard - manage courses, assignments, deadlines and study progress.">
+  <title>Student Learning Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="header">
+    <div class="header__container">
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="sidebar">
+        <span class="hamburger__bar"></span>
+        <span class="hamburger__bar"></span>
+        <span class="hamburger__bar"></span>
+      </button>
+
+      <div class="header__brand">
+        <span class="header__logo" aria-hidden="true">📚</span>
+        <h1 class="header__title">Learning Dashboard</h1>
+      </div>
+
+      <div class="header__search">
+        <label for="globalSearch" class="visually-hidden">Search courses and assignments</label>
+        <input type="search" id="globalSearch" class="search-input" placeholder="Search courses & assignments..." autocomplete="off">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+      </div>
+
+      <div class="header__actions">
+        <button class="icon-btn" id="notifBtn" aria-label="Open notifications" aria-haspopup="true" aria-expanded="false" aria-controls="notifPanel">
+          <span aria-hidden="true">🔔</span>
+          <span class="badge" id="notifBadge">3</span>
+        </button>
+
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+          <span aria-hidden="true" id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <nav>
+        <ul class="sidebar__list">
+          <li><a href="#overview" class="sidebar__link active" data-section="overview"><span aria-hidden="true">🏠</span> Overview</a></li>
+          <li><a href="#courses" class="sidebar__link" data-section="courses"><span aria-hidden="true">📘</span> Courses</a></li>
+          <li><a href="#assignments" class="sidebar__link" data-section="assignments"><span aria-hidden="true">📝</span> Assignments</a></li>
+          <li><a href="#progress" class="sidebar__link" data-section="progress"><span aria-hidden="true">📊</span> Progress</a></li>
+          <li><a href="#deadlines" class="sidebar__link" data-section="deadlines"><span aria-hidden="true">⏰</span> Deadlines</a></li>
+          <li><a href="#profile" class="sidebar__link" data-section="profile"><span aria-hidden="true">👤</span> Profile</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" tabindex="-1"></div>
+
+    <main id="main-content" class="main">
+
+      <!-- Notifications Panel -->
+      <div class="notif-panel" id="notifPanel" role="region" aria-label="Notifications" hidden>
+        <div class="notif-panel__header">
+          <h2>Notifications</h2>
+          <button class="icon-btn-small" id="closeNotif" aria-label="Close notifications">✕</button>
+        </div>
+        <ul class="notif-list">
+          <li class="notif-item">
+            <span class="notif-item__icon" aria-hidden="true">⚠️</span>
+            <div>
+              <p class="notif-item__text">Assignment "React Portfolio Project" is due tomorrow.</p>
+              <span class="notif-item__time">2 hours ago</span>
+            </div>
+          </li>
+          <li class="notif-item">
+            <span class="notif-item__icon" aria-hidden="true">✅</span>
+            <div>
+              <p class="notif-item__text">You completed "CSS Grid Fundamentals" quiz.</p>
+              <span class="notif-item__time">1 day ago</span>
+            </div>
+          </li>
+          <li class="notif-item">
+            <span class="notif-item__icon" aria-hidden="true">🎯</span>
+            <div>
+              <p class="notif-item__text">Weekly study goal reached — great job!</p>
+              <span class="notif-item__time">2 days ago</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Overview Section -->
+      <section id="overview" class="section" aria-labelledby="overview-heading">
+        <h2 id="overview-heading" class="section__title">Dashboard Overview</h2>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-card__icon stat-card__icon--blue" aria-hidden="true">📘</div>
+            <div>
+              <p class="stat-card__value" id="statCourses">0</p>
+              <p class="stat-card__label">Total Courses</p>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-card__icon stat-card__icon--warning" aria-hidden="true">📝</div>
+            <div>
+              <p class="stat-card__value" id="statPending">0</p>
+              <p class="stat-card__label">Pending Assignments</p>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-card__icon stat-card__icon--success" aria-hidden="true">✅</div>
+            <div>
+              <p class="stat-card__value" id="statCompleted">0</p>
+              <p class="stat-card__label">Completed Assignments</p>
+            </div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-card__icon stat-card__icon--danger" aria-hidden="true">⏰</div>
+            <div>
+              <p class="stat-card__value" id="statDeadlines">0</p>
+              <p class="stat-card__label">Upcoming Deadlines</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Courses Section -->
+      <section id="courses" class="section" aria-labelledby="courses-heading">
+        <div class="section__header">
+          <h2 id="courses-heading" class="section__title">My Courses</h2>
+        </div>
+        <div class="card-grid" id="coursesGrid"></div>
+        <p class="empty-state" id="coursesEmpty" hidden>No courses match your search.</p>
+      </section>
+
+      <!-- Assignments Section -->
+      <section id="assignments" class="section" aria-labelledby="assignments-heading">
+        <div class="section__header">
+          <h2 id="assignments-heading" class="section__title">Assignment Manager</h2>
+
+          <div class="filter-group" role="group" aria-label="Filter assignments by status">
+            <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+            <button class="filter-btn" data-filter="pending" aria-pressed="false">Pending</button>
+            <button class="filter-btn" data-filter="in-progress" aria-pressed="false">In Progress</button>
+            <button class="filter-btn" data-filter="completed" aria-pressed="false">Completed</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="assignments-table" id="assignmentsTable">
+            <caption class="visually-hidden">List of assignments with due dates and status</caption>
+            <thead>
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Course</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="assignmentsBody"></tbody>
+          </table>
+        </div>
+        <p class="empty-state" id="assignmentsEmpty" hidden>No assignments match this filter.</p>
+      </section>
+
+      <!-- Progress Section -->
+      <section id="progress" class="section" aria-labelledby="progress-heading">
+        <h2 id="progress-heading" class="section__title">Progress Tracking</h2>
+
+        <div class="progress-grid">
+          <article class="progress-card">
+            <h3 class="progress-card__title">Weekly Study Progress</h3>
+            <div class="progress-bar" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" aria-label="Weekly study progress 68 percent">
+              <div class="progress-bar__fill" style="width: 68%;"></div>
+            </div>
+            <p class="progress-card__text">68% of weekly study hours completed (17 / 25 hrs)</p>
+          </article>
+
+          <article class="progress-card">
+            <h3 class="progress-card__title">Learning Goal Completion</h3>
+            <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Learning goal completion 45 percent">
+              <div class="progress-bar__fill progress-bar__fill--success" style="width: 45%;"></div>
+            </div>
+            <p class="progress-card__text">45% of monthly learning goals achieved</p>
+          </article>
+
+          <article class="progress-card">
+            <h3 class="progress-card__title">Overall Course Completion</h3>
+            <div class="progress-bar" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="Overall course completion 72 percent">
+              <div class="progress-bar__fill progress-bar__fill--blue" style="width: 72%;"></div>
+            </div>
+            <p class="progress-card__text">72% average completion across all courses</p>
+          </article>
+        </div>
+
+        <div class="goals-list">
+          <h3 class="goals-list__title">This Week's Learning Goals</h3>
+          <ul class="goals-list__items">
+            <li class="goal-item">
+              <input type="checkbox" id="goal1" checked>
+              <label for="goal1">Complete JavaScript array methods module</label>
+            </li>
+            <li class="goal-item">
+              <input type="checkbox" id="goal2" checked>
+              <label for="goal2">Finish CSS Grid practice exercises</label>
+            </li>
+            <li class="goal-item">
+              <input type="checkbox" id="goal3">
+              <label for="goal3">Submit React Portfolio Project</label>
+            </li>
+            <li class="goal-item">
+              <input type="checkbox" id="goal4">
+              <label for="goal4">Review accessibility checklist</label>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Deadlines Section -->
+      <section id="deadlines" class="section" aria-labelledby="deadlines-heading">
+        <h2 id="deadlines-heading" class="section__title">Upcoming Deadlines</h2>
+        <ul class="deadlines-list" id="deadlinesList"></ul>
+      </section>
+
+      <!-- Profile Section -->
+      <section id="profile" class="section" aria-labelledby="profile-heading">
+        <h2 id="profile-heading" class="section__title">Profile</h2>
+
+        <div class="profile-card">
+          <div class="profile-card__avatar" aria-hidden="true">JD</div>
+          <div class="profile-card__info">
+            <h3 class="profile-card__name">Jordan Davis</h3>
+            <p class="profile-card__email">jordan.davis@example.edu</p>
+
+            <dl class="profile-card__details">
+              <div class="profile-card__detail">
+                <dt>Learning Streak</dt>
+                <dd>🔥 12 days</dd>
+              </div>
+              <div class="profile-card__detail">
+                <dt>Enrolled Courses</dt>
+                <dd>4 courses</dd>
+              </div>
+              <div class="profile-card__detail">
+                <dt>Member Since</dt>
+                <dd>January 2025</dd>
+              </div>
+            </dl>
+
+            <form class="profile-form" aria-label="Edit profile preferences">
+              <h4 class="profile-form__title">Preferences</h4>
+
+              <div class="form-group">
+                <label for="displayName">Display Name</label>
+                <input type="text" id="displayName" name="displayName" value="Jordan Davis">
+              </div>
+
+              <div class="form-group">
+                <label for="emailAddress">Email Address</label>
+                <input type="email" id="emailAddress" name="emailAddress" value="jordan.davis@example.edu">
+              </div>
+
+              <div class="form-group">
+                <label for="weeklyGoal">Weekly Study Goal (hours)</label>
+                <input type="number" id="weeklyGoal" name="weeklyGoal" value="25" min="1" max="100">
+              </div>
+
+              <button type="submit" class="btn btn--primary">Save Preferences</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__container">
+      <p>&copy; 2025 Student Learning Dashboard. Built with HTML, CSS &amp; JavaScript.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
